@@ -1,7 +1,7 @@
 from Units import Quantity
 from os.path import join, dirname
 from yaml import load
-from nose.tools import assert_almost_equal, assert_true
+from nose.tools import assert_almost_equal, assert_true, assert_raises
 
 Examples = load(open(join(dirname(__file__), 'examples.yml')))
 
@@ -18,4 +18,8 @@ def test_conversion_number():
     assert_almost_equal(NewMinute.number,1.0)
 
 def test_conversion_units():
-    assert_true(NewMinute.units==['minute'])                
+    assert_true(NewMinute.units==['minute'])         
+
+def test_addition():
+    with assert_raises(TypeError):
+        Metre+Second
