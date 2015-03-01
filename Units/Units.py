@@ -32,6 +32,12 @@ class Quantity(object):
      def __radd__(self, other):
          return self.add(other)
          
+     def __eq__(self, other):
+         if self.number==other.number:
+            if self.dictunits==other.dictunits:
+                return True
+         else:
+             return False
 
      def add(self, other):
          if self.dictunits==other.dictunits:
@@ -40,10 +46,16 @@ class Quantity(object):
              raise TypeError("You can't add things with different units!")  
 
      def multiply(self, other):
-         Units1=Counter(self.dictunits)
-         Units2=Counter(other.dictunits)
-         newunits=Units1+Units2
-         return Quantity(self.number*other.number, newunits.keys(), newunits.values())
+         if type(other)==float:
+             return Quantity(self.number*other, self.units, self.powers)
+         elif type(other)==int:
+             return Quantity(self.number*other, self.units, self.powers)
+             
+         else:
+             Units1=Counter(self.dictunits)
+             Units2=Counter(other.dictunits)
+             newunits=Units1+Units2
+             return Quantity(self.number*other.number, newunits.keys(), newunits.values())
          
      def convert(self, oldunit, newunit, scale):
          if oldunit in self.units:
@@ -51,3 +63,14 @@ class Quantity(object):
             return Quantity(scale*self.number, self.dictunits.keys(), self.dictunits.values())
          else: 
             raise LookupError("I can't change a unit if it isn't in this quantity!")
+            
+M=Quantity(1, ['metre'], [1])
+KiloM=Quantity(1000,['metre'],[1])
+KM=1000*M
+print KiloM.number
+print KM.number
+print KiloM.units
+print KM.units
+print KiloM.powers
+print KM.powers
+
