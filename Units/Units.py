@@ -14,7 +14,20 @@ class Quantity(object):
              pass
          else: 
              raise TypeError("You need to use a number!")
-             
+
+     def __mul__(self, other):
+         return self.multiply(other)
+         
+     def __rmul__(self, other):
+         return self.multiply(other)
+         
+     def __add__(self, other):
+         return self.add(other)
+         
+     def __radd__(self, other):
+         return self.add(other)
+         
+
      def add(self, other):
          if self.units==other.units:
              return Quantity(self.number+other.number, self.units, self.powers)
@@ -33,6 +46,7 @@ class Expression(object):
                  
 first=Quantity(1,['x','y'],[2,1])
 second=Quantity(2,['x','y'],[2,1])
-third=first.multiply(second)
+third=first.add(second)
 keys=third.dictunits.keys()
-print third.dictunits
+third2=first+second
+keys2=third2.dictunits.keys()
