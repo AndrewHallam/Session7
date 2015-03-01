@@ -31,3 +31,6 @@ def test_number():
 def test_convert():
     with assert_raises(LookupError):
         Second.convert('metre','minute',1)
+    
+def test_multiply():
+    assert_true(Metre*Second==Second*Metre)
