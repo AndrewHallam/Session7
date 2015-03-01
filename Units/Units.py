@@ -64,13 +64,3 @@ class Quantity(object):
          else: 
             raise LookupError("I can't change a unit if it isn't in this quantity!")
             
-M=Quantity(1, ['metre'], [1])
-KiloM=Quantity(1000,['metre'],[1])
-KM=1000*M
-print KiloM.number
-print KM.number
-print KiloM.units
-print KM.units
-print KiloM.powers
-print KM.powers
-

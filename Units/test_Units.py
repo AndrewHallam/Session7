@@ -5,12 +5,12 @@ from nose.tools import assert_almost_equal, assert_true, assert_raises
 
 Examples = load(open(join(dirname(__file__), 'examples.yml')))
 
-Metre=Quantity(1, ['metre'], [1])
-Kilometre=Quantity(1000,['metre'],[1])
-Second=Quantity(1,['second'],[1])
-Minute=Quantity(60, ['second'],[1])
-
+Metre=eval(Examples['Metre'])
+Kilometre=eval(Examples['Kilometre'])
+Second=eval(Examples['Second'])
+Minute=eval(Examples['Minute'])
 NewMinute=60*Second.convert('second','minute',0.0166666666666666666666666666666666666666666666666666)
+
 def test_equality():
     assert_true(1000*Metre==Kilometre)
 
@@ -23,3 +23,11 @@ def test_conversion_units():
 def test_addition():
     with assert_raises(TypeError):
         Metre+Second
+        
+def test_number():
+    with assert_raises(TypeError):
+        Quantity('a',['metre'], [1])
+        
+def test_convert():
+    with assert_raises(LookupError):
+        Second.convert('metre','minute',1)
