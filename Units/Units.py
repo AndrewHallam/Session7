@@ -1,12 +1,12 @@
 from collections import Counter
 from os.path import join, dirname
-
 from yaml import load
 
 Ex = load(open(join(dirname(__file__), 'examples.yml')))
 
 class Quantity(object):
      def __init__(self, number, units, powers):
+         
          self.number=number
          self.units=units
          self.powers=powers
@@ -34,10 +34,10 @@ class Quantity(object):
          
 
      def add(self, other):
-         if self.units==other.units:
+         if self.dictunits==other.dictunits:
              return Quantity(self.number+other.number, self.units, self.powers)
          else:
-             return TypeError("You can't add things with different units!")  
+             raise TypeError("You can't add things with different units!")  
 
      def multiply(self, other):
          Units1=Counter(self.dictunits)
@@ -50,18 +50,4 @@ class Quantity(object):
             self.dictunits[newunit]=self.dictunits.pop(oldunit)
             return Quantity(scale*self.number, self.dictunits.keys(), self.dictunits.values())
          else: 
-            return LookupError("I can't change a unit if it isn't in this quantity!")
-                 
-first=Quantity(1,['x','y'],[2,1])
-second=Quantity(2,['x','y'],[2,1])
-third=first.add(second)
-keys=third.dictunits.keys()
-third2=first+second
-keys2=third2.dictunits.keys()
-
-MinuteInSec=eval(Ex['Minute'])
-print MinuteInSec.number
-print MinuteInSec.units
-MinInMin=MinuteInSec.convert('second','minute',0.01666666666)
-print MinInMin.number
-print MinInMin.units
+            raise LookupError("I can't change a unit if it isn't in this quantity!")
