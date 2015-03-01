@@ -1,4 +1,9 @@
 from collections import Counter
+from os.path import join, dirname
+
+from yaml import load
+
+Ex = load(open(join(dirname(__file__), 'examples.yml')))
 
 class Quantity(object):
      def __init__(self, number, units, powers):
@@ -40,9 +45,12 @@ class Quantity(object):
          newunits=Units1+Units2
          return Quantity(self.number*other.number, newunits.keys(), newunits.values())
          
-class Expression(object):
-     def __init__(self, terms):
-         self.terms=terms
+     def convert(self, oldunit, newunit, scale):
+         if oldunit in self.units:
+            self.dictunits[newunit]=self.dictunits.pop(oldunit)
+            return Quantity(scale*self.number, self.dictunits.keys(), self.dictunits.values())
+         else: 
+            return LookupError("I can't change a unit if it isn't in this quantity!")
                  
 first=Quantity(1,['x','y'],[2,1])
 second=Quantity(2,['x','y'],[2,1])
@@ -50,3 +58,10 @@ third=first.add(second)
 keys=third.dictunits.keys()
 third2=first+second
 keys2=third2.dictunits.keys()
+
+MinuteInSec=eval(Ex['Minute'])
+print MinuteInSec.number
+print MinuteInSec.units
+MinInMin=MinuteInSec.convert('second','minute',0.01666666666)
+print MinInMin.number
+print MinInMin.units
